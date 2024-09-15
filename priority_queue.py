@@ -1,7 +1,5 @@
 """ Understanding Priority Queue """
 
-import heapq
-
 class Task:
     """ Task class to represent individual tasks, and storing relevant information """
     def __init__(self, task_id, priority, arrival_time, deadline):
@@ -15,7 +13,7 @@ class MinHeapPriorityQueue:
     def __init__(self):
         self.heap = []
 
-    def shift_down(self, index):
+    def shift_up(self, index):
         """ Function to restore min heap property """
         parent = (index - 1) // 2
 
@@ -28,15 +26,15 @@ class MinHeapPriorityQueue:
     def insert(self, task):
         """ Insert task into the priority queue as a heap """
         self.heap.append(task)
-        self.shift_down(len(self.heap) - 1)
+        self.shift_up(len(self.heap) - 1)
 
-    def heap_mimimum_element(self):
+    def heap_minimum_element(self):
         """ Return the minimum element from the heap """
         if self.is_empty():
             raise IndexError("Minimum Heap Priority queue is empty.")
         return self.heap[0]
 
-    def shift_up(self, index):
+    def shift_down(self, index):
         """ Function to shift minimum a subtree rooted with node index """
         heap_size = len(self.heap)
         left = 2 * index + 1                        # Left child index with parent index
@@ -61,16 +59,16 @@ class MinHeapPriorityQueue:
             self.heap[index], self.heap[smallest] = self.heap[smallest], self.heap[index]
 
             # Recursively heapify the affected subtree
-            self.shift_up(smallest)
+            self.shift_down(smallest)
 
     def extract_min(self):
         """ Function to get the minimum element from the heap """
-        max_value = self.heap_mimimum_element()
+        min_value = self.heap_minimum_element()         # Get the minimum priority element from the heap
         self.heap[0] = self.heap[-1]
-        self.heap.pop()
-        self.shift_down(0)
+        self.heap.pop()                                 # Remove the last task
+        self.shift_down(0)                              # Get the lowest priority element to top
 
-        return max_value
+        return min_value
 
     def decrease_key(self, task_id, new_priority):
         """ Function to decrease the priority of a element in the heap """
@@ -78,7 +76,7 @@ class MinHeapPriorityQueue:
             if task.task_id == task_id:
                 if new_priority < task.priority:
                     task.priority = new_priority
-                    self.shift_down(index)
+                    self.shift_up(index)                # Maintain heap property
                 else:
                     raise ValueError("New priority must be smaller than current priority.")
                 break
@@ -87,26 +85,51 @@ class MinHeapPriorityQueue:
         """ Return if the heap is empty or not """
         return len(self.heap) == 0
 
-# Task: (ID, Priority, Arrival, Deadline)
-pq = MinHeapPriorityQueue()
+task_priority_queue = MinHeapPriorityQueue()
 
-# Insert tasks
-pq.insert(Task(1, 3, '10:00', '12:00'))
-pq.insert(Task(2, 5, '10:05', '12:05'))
-pq.insert(Task(3, 1, '10:10', '12:10'))
-
-# Extract max
-print("Extracted:", pq.extract_min().task_id)  # Should extract the task with the highest priority (Priority 5)
-
-# Increase priority
-pq.decrease_key(2, 2)  # Increase task 3's priority to 4
+# Insert tasks in the queue
+task_priority_queue.insert(Task(1, 3, '10:00', '12:00'))
+task_priority_queue.insert(Task(2, 5, '10:05', '12:05'))
+task_priority_queue.insert(Task(3, 2, '10:10', '12:10'))
+task_priority_queue.insert(Task(4, 3, '10:23', '12:15'))
+task_priority_queue.insert(Task(5, 1, '10:16', '12:20'))
+task_priority_queue.insert(Task(6, 5, '10:30', '12:30'))
 
 # Check queue state
-print("Queue:")
-for i in pq.heap:
+print("Queue before extracting lowest element:")
+for i in task_priority_queue.heap:
+    print("Task ID: ", i.task_id, " Priority: ", i.priority)
+
+# Extract heap_minimum_element
+# Should extract the task with the lowest priority (Task_ID: 5, Priority: 1)
+print("Extracted task with task_id:", task_priority_queue.extract_min().task_id)
+
+# Should extract the task with the lowest priority (Task_ID: 3, Priority: 2)
+print("Extracted task with task_id:", task_priority_queue.extract_min().task_id)
+
+# Decrease priority
+task_priority_queue.decrease_key(2, 2)  # Decrease task 2's priority to 2
+task_priority_queue.decrease_key(6, 4)  # Decrease task 6's priority to 3
+
+# Should extract the task with the lowest priority (Task_ID: 3, Priority: 2)
+print("Extracted task with task_id:", task_priority_queue.extract_min().task_id)
+
+# Check queue state
+print("Queue after extraction:")
+for i in task_priority_queue.heap:
     print("Task ID: ", i.task_id, " Priority: ", i.priority)
 
 # Check if empty
-print("Is queue empty?", pq.is_empty())
+print("Is queue empty?", task_priority_queue.is_empty())
 
-heapq.heappush()
+# Should extract the task with the lowest priority (Task_ID: 4, Priority: 3)
+print("Extracted task with task_id:", task_priority_queue.extract_min().task_id)
+
+# Should extract the task with the lowest priority (Task_ID: 1, Priority: 3)
+print("Extracted task with task_id:", task_priority_queue.extract_min().task_id)
+
+# Should extract the task with the lowest priority (Task_ID: 6, Priority: 4)
+print("Extracted task with task_id:", task_priority_queue.extract_min().task_id)
+
+# Check if empty
+print("Is queue empty?", task_priority_queue.is_empty())
