@@ -1,5 +1,8 @@
-# HEAP DATA STRUCTURES AND PRIORITY QUEUE: IMPLEMENTATION, ANALYSIS AND APPLICATIONS
-This repository explores the implementation of heap data structures, including Heapsort and priority queues. The aim is to analyze the performance of Heapsort and to design a priority queue using a min-heap for task scheduling.
+# MSCS532_Assignment4
+Assignment 4 of MSCS 532 course
+
+## Heap Data Structures and Priority Queue: Implementation, Analysis AND Applications
+This assignment explores the implementation of heap data structures, including Heapsort and priority queues. The aim is to analyze the performance of Heapsort and to design a priority queue using a min-heap for task scheduling.
 
 ## Files
 - 'heap_sort.py' : Python implementation of Heapsort using a max-heap.
@@ -12,5 +15,5 @@ This repository explores the implementation of heap data structures, including H
 3. Navigate to the repository directory: cd MSCS532_Assignment4
 4. Run the code using the command: python .\heap_sort.py or python .\priority_queue.py
 
-## SUMMARY
+## Summary
 This assignment demonstrates the efficiency of heap data structures for sorting and priority management. Both heapsort using max-heap and priority queue using min-heap were successfully implemented and analyzed for their performance and applications. 
